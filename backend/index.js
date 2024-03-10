@@ -291,11 +291,12 @@ app.get('/api/exchange-requests', verifyToken, async (req, res) => {
     const incomingRequests = await ExchangeRequest.find({ receiverId: userId }).populate({
       path: 'listingIds',
       model: 'Listing'
-    });
+    }).populate('bookId'); // Populate the bookId field
+   
     const outgoingRequests = await ExchangeRequest.find({ senderId: userId }).populate({
       path: 'listingIds',
       model: 'Listing'
-    });
+    }).populate('bookId'); // Populate the bookId field
     
     res.json({ incomingRequests, outgoingRequests });
   } catch (error) {
@@ -326,5 +327,9 @@ app.put('/api/update-exchange-request/:exchangeRequestId', verifyToken, async (r
 
 
 
+
+
+
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));  
+app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+  
